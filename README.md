@@ -1,4 +1,4 @@
-# Rythium
+# rythium
 New material, new possibilities, new gameplay
 
 
