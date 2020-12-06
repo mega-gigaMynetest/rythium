@@ -1,4 +1,4 @@
-# Minestest-mod-Rythium
+# Rythium
 New material, new possibilities, new gameplay
 
 
