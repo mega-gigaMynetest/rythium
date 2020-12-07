@@ -35,6 +35,58 @@ minetest.register_node("rythium:mineral_dirt", {
 	}),
 })
 
+minetest.register_craftitem("rythium:rythium_ingot", {
+	description = ("Rythium ingot"),
+	inventory_image = "rythium_ingot.png"
+}
+)
+
+minetest.register_node("rythium:rythium_nugget", {
+	description = ("rythium nugget"),
+	drawtype = "plantlike",
+	tiles = {"rythium_nugget.png"},
+	inventory_image = "rythium_nugget.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	is_ground_content = false,
+	selection_box = {
+		type = "fixed",
+		fixed = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
+	},
+	groups = {leafdecay = 3, leafdecay_drop = 1, cracky = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_node("rythium:leaves", {
+	description = ("Rythium leaves"),
+	drawtype = "allfaces_optional",
+	waving = 1,
+	tiles = {"rythium_leaves.png"},
+	paramtype = "light",
+	is_ground_content = false,
+	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	sounds = default.node_sound_leaves_defaults(),
+})
+
+minetest.register_craft( {
+        output = "rythium:rythium_ingot",
+        recipe = {
+                {"rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget" },
+                { "rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget" },
+                {"rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget"},
+        },
+})
+
+minetest.register_craft( {
+        output = "rythium:sapling",
+        recipe = {
+                {"rythium:diamond_powder", "default:mese_crystal", "rythium:diamond_powder" },
+                {"rythium:mithril_powder", "default:mese_crystal", "rythium:mithril_powder" },
+                {"", "default:stick", ""},
+        },
+})
+
 minetest.register_craft( {
         output = "rythium:mineral_dirt",
         recipe = {
@@ -47,8 +99,8 @@ minetest.register_craft( {
 minetest.register_node("rythium:sapling", {
 	description = ("rythium sapling"),
 	drawtype = "plantlike",
-	tiles = {"azerty.png"},
-	inventory_image = "default_sapling.png",
+	tiles = {"rythium_sapling.png"},
+	inventory_image = "rythium_sapling.png",
 	wield_image = "default_sapling.png",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -109,7 +161,6 @@ end
 
 function default.grow_rythium_sapling(pos)
 	if not default.can_grow(pos) then
-
 		minetest.get_node_timer(pos):start(10)
 		return
 	end
@@ -119,7 +170,7 @@ function default.grow_rythium_sapling(pos)
 	if node.name == "rythium:sapling" then
 		minetest.log("action", "A rythium sapling grows into a rythium tree at "..
 			minetest.pos_to_string(pos))
-    default.grow_new_apple_tree(pos)
+    grow_rythium_tree(pos, 1)
   end
 end
 
@@ -134,7 +185,7 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 	local x, y, z = pos.x, pos.y, pos.z
 	local c_air = minetest.get_content_id("air")
 	local c_ignore = minetest.get_content_id("ignore")
-	local c_apple = minetest.get_content_id("default:apple")
+	local c_apple = minetest.get_content_id("rythium:rythium_nugget")
 
 	-- Trunk
 	data[a:index(x, y, z)] = tree_cid -- Force-place lowest trunk node to replace sapling
@@ -152,7 +203,7 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 		local vi = a:index(x - 1, y + height + y_dist, z + z_dist)
 		for x_dist = -1, 1 do
 			if data[vi] == c_air or data[vi] == c_ignore then
-				if is_apple_tree and random(1, 8) == 1 then
+				if is_apple_tree and random(1, 16) == 1 then
 					data[vi] = c_apple
 				else
 					data[vi] = leaves_cid
@@ -162,24 +213,44 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 		end
 	end
 	end
+	for i = 1, iters do
+		local clust_x = x + random(-size, size - 1)
+		local clust_y = y + height + random(-size, 0)
+		local clust_z = z + random(-size, size - 1)
+
+		for xi = 0, 1 do
+		for yi = 0, 1 do
+		for zi = 0, 1 do
+			local vi = a:index(clust_x + xi, clust_y + yi, clust_z + zi)
+			if data[vi] == c_air or data[vi] == c_ignore then
+				if is_apple_tree and random(1, 16) == 1 then
+					data[vi] = c_apple
+				else
+					data[vi] = leaves_cid
+				end
+			end
+		end
+		end
+		end
+	end
 end
 
 -- Apple tree
 
-function default.grow_tree(pos, is_apple_tree, bad)
+function grow_rythium_tree(pos, is_apple_tree, bad)
 	--[[
 		NOTE: Tree-placing code is currently duplicated in the engine
 		and in games that have saplings; both are deprecated but not
 		replaced yet
 	--]]
 	if bad then
-		error("Deprecated use of default.grow_tree")
+		error("Deprecated use of grow_rythium_tree")
 	end
 
 	local x, y, z = pos.x, pos.y, pos.z
-	local height = random(6, 8)
+	local height = random(4, 6)
 	local c_rythium_tree = minetest.get_content_id("default:tree")
-	local c_rythium_leaves = minetest.get_content_id("default:leaves")
+	local c_rythium_leaves = minetest.get_content_id("rythium:leaves")
 
 	local vm = minetest.get_voxel_manip()
 	local minp, maxp = vm:read_from_map(
@@ -189,7 +260,7 @@ function default.grow_tree(pos, is_apple_tree, bad)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
 	local data = vm:get_data()
 
-	add_trunk_and_leaves_rythium(data, a, pos, c_rythium_tree, c_rythium_leaves, height, 2, 8, false)
+	add_trunk_and_leaves_rythium(data, a, pos, c_rythium_tree, c_rythium_leaves, height, 2, 8, is_apple_tree)
 
 	vm:set_data(data)
 	vm:write_to_map()
@@ -282,3 +353,4 @@ function default.grow_new_apple_tree(pos)
 	minetest.place_schematic({x = pos.x - 3, y = pos.y - 1, z = pos.z - 3},
 		path, "random", nil, false)
 end
+
