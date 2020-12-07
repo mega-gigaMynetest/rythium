@@ -101,7 +101,7 @@ minetest.register_node("rythium:sapling", {
 	drawtype = "plantlike",
 	tiles = {"rythium_sapling.png"},
 	inventory_image = "rythium_sapling.png",
-	wield_image = "default_sapling.png",
+	wield_image = "rythium_sapling.png",
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
