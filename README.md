@@ -1,7 +1,7 @@
 # rythium
 New material, new possibilities, new gameplay
 
-![screenshot][screenshots/sc_0002.png]
+![screenshot][screenshots/SC_0002.png]
 
 
 ## Quick project overview
@@ -23,7 +23,7 @@ With this material you can craft unique objects like a 3 * 3 pickaxe.
 * With 9 rythium nuggets craft a rythium ingot
 * And with these rythium ingots you may craft unique items/tools
 
-![screenshot][screenshots/sc_0000.png]
+![screenshot][screenshots/SC_0000.png]
 
 ## TODO
 
