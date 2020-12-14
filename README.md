@@ -23,7 +23,7 @@ With this material you can craft unique objects like a 3 * 3 pickaxe.
 * With 9 rythium nuggets craft a rythium ingot
 * And with these rythium ingots you may craft unique items/tools
 
-![screenshot](/screenshots/SC_0000.png)
+![screenshot](/screenshots/SC_0001.png)
 
 ## TODO
 
