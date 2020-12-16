@@ -1,19 +1,17 @@
 local function grow_rythium_sapling(...)
 	return default.grow_rythium_sapling(...)
 end
-local S = default.get_translator
-local random = math.random
 
 function default.can_grow(pos)
 	local node_under_C = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z})
-  local node_under_N = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z + 1})
-  local node_under_S = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z - 1})
-  local node_under_W = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z})
-  local node_under_E = minetest.get_node_or_nil({x = pos.x + 1, y = pos.y - 1, z = pos.z})
-  local node_under_NW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
-  local node_under_NE = minetest.get_node_or_nil({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1})
-  local node_under_SW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
-  local node_under_SE = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
+	local node_under_N = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z + 1})
+	local node_under_S = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z - 1})
+	local node_under_W = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z})
+	local node_under_E = minetest.get_node_or_nil({x = pos.x + 1, y = pos.y - 1, z = pos.z})
+	local node_under_NW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
+	local node_under_NE = minetest.get_node_or_nil({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1})
+	local node_under_SW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
+	local node_under_SE = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
 	if not node_under_C or not node_under_N or not node_under_S or not node_under_W or not node_under_E or not node_under_NW or not node_under_NE or not node_under_SW or not node_under_SE then
 		return false
 	end
@@ -21,35 +19,35 @@ function default.can_grow(pos)
 	if name_under_C ~= "rythium:mineral_dirt" then
 		return false
 	end
-  local name_under_N = node_under_N.name
+	local name_under_N = node_under_N.name
 	if name_under_N ~= "rythium:mineral_dirt" then
 		return false
 	end
-  local name_under_S = node_under_S.name
+	local name_under_S = node_under_S.name
 	if name_under_S ~= "rythium:mineral_dirt" then
 		return false
 	end
-  local name_under_W = node_under_W.name
+	local name_under_W = node_under_W.name
 	if name_under_W ~= "rythium:mineral_dirt" then
 		return false
 	end
-  local name_under_E = node_under_E.name
+	local name_under_E = node_under_E.name
 	if name_under_E ~= "rythium:mineral_dirt" then
 		return false
 	end
-  local name_under_NW = node_under_NW.name
+	local name_under_NW = node_under_NW.name
 	if name_under_NW ~= "rythium:mineral_dirt" then
 		return false
 	end
-  local name_under_NE = node_under_NE.name
+	local name_under_NE = node_under_NE.name
 	if name_under_NE ~= "rythium:mineral_dirt" then
 		return false
 	end
-  local name_under_SW = node_under_SW.name
+	local name_under_SW = node_under_SW.name
 	if name_under_SW ~= "rythium:mineral_dirt" then
 		return false
 	end
-  local name_under_SE = node_under_SE.name
+	local name_under_SE = node_under_SE.name
 	if name_under_SE ~= "rythium:mineral_dirt" then
 		return false
 	end
@@ -76,26 +74,26 @@ function default.grow_rythium_sapling(pos)
 	if node.name == "rythium:sapling" then
 		minetest.log("action", "A rythium sapling grows into a rythium tree at "..
 			minetest.pos_to_string(pos))
-    grow_rythium_tree(pos, 1)
-    minetest.remove_node({x = pos.x, y = pos.y - 1, z = pos.z})
-    minetest.remove_node({x = pos.x, y = pos.y - 1, z = pos.z + 1})
-    minetest.remove_node({x = pos.x, y = pos.y - 1, z = pos.z - 1})
-    minetest.remove_node({x = pos.x - 1, y = pos.y - 1, z = pos.z})
-    minetest.remove_node({x = pos.x + 1, y = pos.y - 1, z = pos.z})
-    minetest.remove_node({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
-    minetest.remove_node({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1})
-    minetest.remove_node({x = pos.x - 1, y = pos.y - 1, z = pos.z- 1})
-    minetest.remove_node({x = pos.x + 1, y = pos.y - 1, z = pos.z - 1})
-    minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
-    minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
-    minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = "default:dirt"})
-    minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
-    minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
-    minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
-    minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
-    minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z- 1}, {name = "default:dirt"})
-    minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z - 1}, {name = "default:dirt"})
-  end
+	grow_rythium_tree(pos, 1)
+	minetest.remove_node({x = pos.x, y = pos.y - 1, z = pos.z})
+	minetest.remove_node({x = pos.x, y = pos.y - 1, z = pos.z + 1})
+	minetest.remove_node({x = pos.x, y = pos.y - 1, z = pos.z - 1})
+	minetest.remove_node({x = pos.x - 1, y = pos.y - 1, z = pos.z})
+	minetest.remove_node({x = pos.x + 1, y = pos.y - 1, z = pos.z})
+	minetest.remove_node({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
+	minetest.remove_node({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1})
+	minetest.remove_node({x = pos.x - 1, y = pos.y - 1, z = pos.z- 1})
+	minetest.remove_node({x = pos.x + 1, y = pos.y - 1, z = pos.z - 1})
+	minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
+	minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
+	minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = "default:dirt"})
+	minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
+	minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
+	minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
+	minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
+	minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z- 1}, {name = "default:dirt"})
+	minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z - 1}, {name = "default:dirt"})
+	end
 end
 
 local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
