@@ -11,7 +11,7 @@ minetest.register_craftitem("rythium:diamond_powder", {
 })
 
 minetest.register_craftitem("rythium:mithril_powder", {
-	description = S("Mithril_powder"),
+	description = S("Mithril powder"),
 	inventory_image = "mithril_powder.png",
 })
 minetest.register_node("rythium:mineral_dirt", {
