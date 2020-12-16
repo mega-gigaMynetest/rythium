@@ -1,20 +1,21 @@
+-- support for MT game translation.
+local S = minetest.get_translator(rythium)
+
 local function grow_rythium_sapling(...)
 	return default.grow_rythium_sapling(...)
 end
-local S = default.get_translator
-local random = math.random
 
 minetest.register_craftitem("rythium:diamond_powder", {
-	description = ("Diamond powder"),
+	description = S("Diamond powder"),
 	inventory_image = "diamond_powder.png",
 })
 
 minetest.register_craftitem("rythium:mithril_powder", {
-	description = ("Mithril_powder"),
+	description = S("Mithril_powder"),
 	inventory_image = "mithril_powder.png",
 })
 minetest.register_node("rythium:mineral_dirt", {
-  description = ("Mineral fertilized dirt"),
+  description = S("Mineral fertilized dirt"),
   tiles = {"mineral_dirt.png"},
   groups = {crumbly = 3, soil = 1},
   sounds = default.node_sound_dirt_defaults({
@@ -23,13 +24,13 @@ minetest.register_node("rythium:mineral_dirt", {
 })
 
 minetest.register_craftitem("rythium:rythium_ingot", {
-	description = ("Rythium ingot"),
+	description = S("Rythium ingot"),
 	inventory_image = "rythium_ingot.png"
 }
 )
 
 minetest.register_node("rythium:rythium_nugget", {
-	description = ("rythium nugget"),
+	description = S("Rythium nugget"),
 	drawtype = "plantlike",
 	tiles = {"rythium_nugget.png"},
 	inventory_image = "rythium_nugget.png",
@@ -46,7 +47,7 @@ minetest.register_node("rythium:rythium_nugget", {
 })
 
 minetest.register_node("rythium:leaves", {
-	description = ("Rythium leaves"),
+	description = S("Rythium leaves"),
 	drawtype = "allfaces_optional",
 	waving = 1,
 	tiles = {"rythium_leaves.png"},
@@ -66,7 +67,7 @@ minetest.register_craft( {
 })
 
 minetest.register_node("rythium:sapling", {
-	description = ("rythium sapling"),
+	description = S("Rythium sapling"),
 	drawtype = "plantlike",
 	tiles = {"rythium_sapling.png"},
 	inventory_image = "rythium_sapling.png",

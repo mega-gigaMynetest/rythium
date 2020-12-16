@@ -13,17 +13,35 @@ With this material you can craft unique objects like a 3 * 3 pickaxe.
 
 * Melt a diamond in furnace: you get diamond_powder
 * Same for a mithril ingot: you get mithril_powder
-* Craft 9 mineral dirt (0 = empty; Dp = diamnond_powder; Mp = mithril_powder; Di = default:dirt):
-  *  `0  Dp  0`
-  *  `Mp Di  Mp`
-  *  `0  Dp  0`
+* Craft 9 mineral dirt (0 = empty; Dp = diamnond_powder; Mp = mithril_powder; Di = default:dirt)
+
+![screenshot](/screenshots/SC_0004.png)
+
 * Make a 3x3 square with it and surround with water
 * Plant the rythium sapling in the middle : it will consume the mineral dirt as it grows
+
+![screenshot](/screenshots/SC_0006.png)
+
 * You get a rythium tree with rythium_nuggets
 * With 9 rythium nuggets craft a rythium ingot
 * And with these rythium ingots you may craft unique items/tools
 
 ![screenshot](/screenshots/SC_0001.png)
+
+## ToolsS
+### Healing wand
+
+![screenshot](/screenshots/SC_0007.png)
+
+When used, the healing wand will cure the aimed player, who will get 20 hit points again.
+
+If no player is aimed, the user is cured.
+
+The wand has a limited number of charges (default 20, mays be changed in the mod options)
+
+### Rythium pickaxe (WIP)
+
+This pickaxe wil dig a 3x3 square, like the mining drill of the technic mod.
 
 ## TODO
 
@@ -32,6 +50,8 @@ With this material you can craft unique objects like a 3 * 3 pickaxe.
 * recipes of tools
 * implement leaves decay
 * implement treecapitator compatibility
+* implement mod options
+* implement translation for all items
 
 ## DONE 
 

@@ -1,0 +1,2 @@
+#	Wands number of charges
+rythium.wands_max_charge (Wands can be use so many times) int 20
