@@ -26,3 +26,34 @@ minetest.register_tool("rythium:healing_wand", {
 		end
 	end,
 })
+
+local pos = {}
+
+minetest.register_tool("rythium:huge_pick", {
+    description = ("3*3 Pick"),
+    inventory_image = "huge_pick.png",
+    on_use = function(itemstack, user, pointed_thing)
+        pos = minetest.get_pointed_thing_position(pointed_thing, false)
+    end,
+    tool_capabilities = {
+        full_punch_interval = 0.9,
+        max_drop_level=3,
+        groupcaps={
+            cracky = {times={[1]=2.0, [2]=1.0, [3]=0.50}, uses=40, maxlevel=3},
+        },
+        damage_groups = {fleshy=4},
+    },
+    after_use = function(itemstack, user, node, digparams)
+        minetest.dig_node({x = pos.x, y = pos.y, z = pos.z})
+        minetest.dig_node({x = pos.x, y = pos.y, z = pos.z + 1})
+        minetest.dig_node({x = pos.x, y = pos.y, z = pos.z - 1})
+        minetest.dig_node({x = pos.x, y = pos.y + 1, z = pos.z})
+        minetest.dig_node({x = pos.x, y = pos.y - 1, z = pos.z})
+        minetest.dig_node({x = pos.x, y = pos.y + 1, z = pos.z + 1})
+        minetest.dig_node({x = pos.x, y = pos.y - 1, z = pos.z - 1})
+        minetest.dig_node({x = pos.x, y = pos.y + 1, z = pos.z - 1})
+        minetest.dig_node({x = pos.x, y = pos.y - 1, z = pos.z + 1})
+    end,
+    sound = {breaks = "default_tool_breaks"},
+    groups = {pickaxe = 1}
+})
