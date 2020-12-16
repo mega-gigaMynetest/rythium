@@ -34,13 +34,16 @@ minetest.register_tool("rythium:healing_wand", {
 local function dig_it(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		minetest.record_protection_violation(pos, player:get_player_name())
-      return
-   end
-   local node = minetest.get_node(pos)
-   if node.name == "air" or node.name == "ignore" then return end
-   if node.name == "default:lava_source" then return end
-   if node.name == "default:lava_flowing" then return end
-	minetest.remove_node(pos)
+		return
+	end
+	local node = minetest.get_node(pos)
+	if node.name == "air" or node.name == "ignore" then return end
+	if node.name == "default:lava_source" then return end
+	if node.name == "default:lava_flowing" then return end
+	if node.name == "default:water_source" then minetest.remove_node(pos) return end
+	if node.name == "default:water_flowing" then minetest.remove_node(pos) return end
+
+	minetest.dig_node(pos)
 end
 
 local function dig_dir(player)
