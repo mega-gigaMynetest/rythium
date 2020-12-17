@@ -1,3 +1,5 @@
+from math import random
+
 local function grow_rythium_sapling(...)
 	return default.grow_rythium_sapling(...)
 end
