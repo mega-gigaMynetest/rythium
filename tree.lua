@@ -12,8 +12,24 @@ function default.can_grow(pos)
 	local node_under_E = minetest.get_node_or_nil({x = pos.x + 1, y = pos.y - 1, z = pos.z})
 	local node_under_NW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
 	local node_under_NE = minetest.get_node_or_nil({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1})
-	local node_under_SW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
-	local node_under_SE = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1})
+	local node_under_SW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1})
+	local node_under_SE = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1})
+	local node_under_NN = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z + 2})
+	local node_under_NNE = minetest.get_node_or_nil({x = pos.x + 1, y = pos.y - 1, z = pos.z + 2})
+	local node_under_NENE = minetest.get_node_or_nil({x = pos.x + 2, y = pos.y - 1, z = pos.z + 2})
+	local node_under_NEE = minetest.get_node_or_nil({x = pos.x + 2, y = pos.y - 1, z = pos.z + 1})
+	local node_under_EE = minetest.get_node_or_nil({x = pos.x + 2, y = pos.y - 1, z = pos.z})
+	local node_under_SEE = minetest.get_node_or_nil({x = pos.x + 2, y = pos.y - 1, z = pos.z - 1})
+	local node_under_SESE = minetest.get_node_or_nil({x = pos.x + 2, y = pos.y - 1, z = pos.z - 2})
+	local node_under_SSE = minetest.get_node_or_nil({x = pos.x + 1, y = pos.y - 1, z = pos.z - 2})
+	local node_under_SS = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z - 2})
+	local node_under_SSW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z - 2})
+	local node_under_SWSW = minetest.get_node_or_nil({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2})
+	local node_under_SWW = minetest.get_node_or_nil({x = pos.x - 2, y = pos.y - 1, z = pos.z - 1})
+	local node_under_WW = minetest.get_node_or_nil({x = pos.x - 2, y = pos.y - 1, z = pos.z})
+	local node_under_NWW = minetest.get_node_or_nil({x = pos.x - 2, y = pos.y - 1, z = pos.z + 1})
+	local node_under_NWNW = minetest.get_node_or_nil({x = pos.x - 2, y = pos.y - 1, z = pos.z + 2})
+	local node_under_NNW = minetest.get_node_or_nil({x = pos.x - 1, y = pos.y - 1, z = pos.z + 2})
 	if not node_under_C or not node_under_N or not node_under_S or not node_under_W or not node_under_E or not node_under_NW or not node_under_NE or not node_under_SW or not node_under_SE then
 		return false
 	end
@@ -51,6 +67,9 @@ function default.can_grow(pos)
 	end
 	local name_under_SE = node_under_SE.name
 	if name_under_SE ~= "rythium:mineral_dirt" then
+		return false
+	end
+	if node_under_NN.name ~= "default:water_source" or node_under_NNE.name ~= "default:water_source" or node_under_NENE.name ~= "default:water_source" or node_under_NEE.name ~= "default:water_source" or node_under_EE.name ~= "default:water_source" or node_under_SEE.name ~= "default:water_source" or node_under_SESE.name ~= "default:water_source" or node_under_SSE.name ~= "default:water_source" or node_under_SS.name ~= "default:water_source" or node_under_SSW.name ~= "default:water_source" or node_under_SWSW.name ~= "default:water_source" or node_under_SWW.name ~= "default:water_source" or node_under_WW.name ~= "default:water_source" or node_under_NWW.name ~= "default:water_source" or node_under_NWNW.name ~= "default:water_source" or node_under_NNW.name ~= "default:water_source" then
 		return false
 	end
 	local light_level = minetest.get_node_light(pos)
@@ -114,12 +133,12 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 		end
 	end
 
-	for z_dist = -1, 1 do
-	for y_dist = -size, 1 do
+	for z_dist = -1, 2 do
+	for y_dist = -size, 2 do
 		local vi = a:index(x - 1, y + height + y_dist, z + z_dist)
-		for x_dist = -1, 1 do
+		for x_dist = -1, 2 do
 			if data[vi] == c_air or data[vi] == c_ignore then
-				if is_apple_tree and random(1, 25) == 1 then
+				if is_apple_tree and random(1, 50) == 1 then
 					data[vi] = c_apple
 				else
 					data[vi] = leaves_cid
@@ -156,7 +175,7 @@ function grow_rythium_tree(pos, is_apple_tree, bad)
 		error("Deprecated use of grow_rythium_tree")
 	end
 	local x, y, z = pos.x, pos.y, pos.z
-	local height = random(2, 3)
+	local height = random(5, 6)
 	local c_rythium_tree = minetest.get_content_id("default:tree")
 	local c_rythium_leaves = minetest.get_content_id("rythium:leaves")
 	local vm = minetest.get_voxel_manip()
