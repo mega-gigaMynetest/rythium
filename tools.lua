@@ -48,12 +48,14 @@ local function dig_it(pos, player)
 		return
 	end
 	local node = minetest.get_node(pos)
-	if node.name == "air" or node.name == "ignore" then return end
-	if node.name == "default:lava_source" then return end
-	if node.name == "default:lava_flowing" then return end
-	if node.name == "default:water_source" then minetest.remove_node(pos) return end
-	if node.name == "default:water_flowing" then minetest.remove_node(pos) return end
-
+	local name = node.name
+	local groupcracky = minetest.get_item_group(name, "cracky")
+	if name == "air" or node.name == "ignore" then return end
+	if name == "default:lava_source" then return end
+	if name == "default:lava_flowing" then return end
+	if name == "default:water_source" then minetest.remove_node(pos) return end
+	if name == "default:water_flowing" then minetest.remove_node(pos) return end
+	if groupcracky == 0 then return end
 	minetest.dig_node(pos)
 end
 
