@@ -42,6 +42,8 @@ minetest.register_tool("rythium:healing_wand", {
 -- Rythium Pickaxe
 --
 
+local disabled = false
+
 local function dig_it(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		minetest.record_protection_violation(pos, player:get_player_name())
@@ -58,7 +60,10 @@ local function dig_it(pos, player)
 	local def = minetest.registered_nodes[node.name]
 	if not def then return end
 	if groupcracky == 0 then return end
-	minetest.dig_node(pos)
+
+	disabled = true
+	minetest.registered_nodes[name].on_dig(pos, node, player)
+	disabled = false
 end
 
 local dig_offsets = {
@@ -101,6 +106,7 @@ minetest.register_tool("rythium:huge_pick", {
 
 minetest.register_on_dignode(
 	function(pos, oldnode, digger)
+		if disabled then return end
 		if not digger:is_player() then return end
 		if digger:get_wielded_item():get_name() == "rythium:huge_pick" then
 			dig_it_dir(pos, digger)
