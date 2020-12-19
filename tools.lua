@@ -61,96 +61,26 @@ local function dig_it(pos, player)
 	minetest.dig_node(pos)
 end
 
-local function dig_dir(player)
-	local dir=player:get_look_dir()
-	if math.abs(dir.x)>math.abs(dir.z) then
-		if dir.x>0 then return 0 end
-		return 1
-	end
-	if dir.z>0 then return 2 end
-	return 3
-end
-
-local function dig_it1 (pos,player)
-	pos.y=pos.y+1
-	dig_it (pos,player)
-	pos.z=pos.z+1
-	dig_it (pos,player)
-	pos.z=pos.z-2
-	dig_it (pos,player)
-	pos.z=pos.z+1
-	pos.y=pos.y-1
-	dig_it (pos,player)
-	pos.z=pos.z+1
-	dig_it (pos,player)
-	pos.z=pos.z-2
-	dig_it (pos,player)
-	pos.z=pos.z+1
-	pos.y=pos.y-1
-	dig_it (pos,player)
-	pos.z=pos.z+1
-	dig_it (pos,player)
-	pos.z=pos.z-2
-	dig_it (pos,player)
-end
-
-local function dig_it2 (pos,player)
-	pos.y=pos.y+1
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	dig_it (pos,player)
-	pos.x=pos.x-2
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	pos.y=pos.y-1
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	dig_it (pos,player)
-	pos.x=pos.x-2
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	pos.y=pos.y-1
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	dig_it (pos,player)
-	pos.x=pos.x-2
-	dig_it (pos,player)
-end
-
-local function dig_it3 (pos,player)
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	dig_it (pos,player)
-	pos.x=pos.x-2
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	pos.z=pos.z+1
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	dig_it (pos,player)
-	pos.x=pos.x-2
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	pos.z=pos.z-2
-	dig_it (pos,player)
-	pos.x=pos.x+1
-	dig_it (pos,player)
-	pos.x=pos.x-2
-	dig_it (pos,player)
-end
+local dig_offsets = {
+	{x = 0,  y = 1,  z = 0},
+	{x = 1,  y = 1,  z = 0},
+	{x = -1, y = 1,  z = 0},
+	{x = 1,  y = 0,  z = 0},
+	{x = -1, y = 0,  z = 0},
+	{x = 0,  y = -1, z = 0},
+	{x = 1,  y = -1, z = 0},
+	{x = -1, y = -1, z = 0}
+}
 
 local function dig_it_dir(pos, player)
 	local dir = player:get_look_dir()
-	if math.abs(dir.y)<0.5 then
-		dir = dig_dir(player)
-		if dir == 0 or dir == 1 then -- x
-			dig_it1(pos, player)
-		end
-		if dir == 2 or dir == 3 then -- z
-			dig_it2(pos, player)
-		end
-	else
-		dig_it3(pos, player)
+	-- Rounded_dir has only one non-zero component
+	local rounded_dir = minetest.facedir_to_dir(minetest.dir_to_facedir(dir, true))
+	local rot = vector.dir_to_rotation(rounded_dir)
+
+	for _, v in ipairs(dig_offsets) do
+		local offset = vector.rotate(v, rot)
+		dig_it(vector.add(pos, offset), player)
 	end
 end
 
@@ -177,4 +107,3 @@ minetest.register_on_dignode(
 		end
 	end
 )
-
