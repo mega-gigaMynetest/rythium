@@ -53,17 +53,18 @@ minetest.register_node("rythium:leaves", {
 	tiles = {"rythium_leaves.png"},
 	paramtype = "light",
 	is_ground_content = false,
+	walkable = false,
+	drop = {
+		max_items = 1,
+		items = {
+			{
+				items = {"rythium:sapling"},
+				rarity = 60,
+			},
+		}
+	},
 	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
 	sounds = default.node_sound_leaves_defaults(),
-})
-
-minetest.register_craft( {
-        output = "rythium:rythium_ingot",
-        recipe = {
-                {"rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget" },
-                { "rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget" },
-                {"rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget"},
-        },
 })
 
 minetest.register_node("rythium:sapling", {
@@ -84,7 +85,7 @@ minetest.register_node("rythium:sapling", {
 		attached_node = 1, sapling = 1},
 	sounds = default.node_sound_leaves_defaults(),
   on_construct = function(pos)
-    minetest.get_node_timer(pos):start(math.random(10, 20))
+    minetest.get_node_timer(pos):start(math.random(1, 2))
   end,
 
   on_place = function(itemstack, placer, pointed_thing)
