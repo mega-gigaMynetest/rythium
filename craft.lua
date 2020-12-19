@@ -21,8 +21,8 @@ minetest.register_craft({
 minetest.register_craft( {
 	output = "rythium:sapling",
 	recipe = {
-		{"rythium:diamond_powder", "default:mese_crystal", "rythium:diamond_powder" },
-		{"rythium:mithril_powder", "default:mese_crystal", "rythium:mithril_powder" },
+		{"default:diamondblock", "default:mese", "default:diamondblock" },
+		{"rythium:mithril_powder", "default:mese", "rythium:mithril_powder" },
 		{"", "default:stick", ""},
 	},
 })
@@ -43,4 +43,22 @@ minetest.register_craft( {
 		{"default:apple", "rythium:rythium_ingot", "default:apple"},
 		{"", "default:stick", ""},
 	},
+})
+
+minetest.register_craft( {
+	output = "rythium:huge_pick",
+	recipe = {
+		{"rythium:rythium_ingot", "rythium:rythium_ingot", "rythium:rythium_ingot"},
+		{"rythium:rythium_ingot", "default:stick", "rythium:rythium_ingot"},
+		{"", "default:stick", ""},
+	},
+})
+
+minetest.register_craft( {
+        output = "rythium:rythium_ingot",
+        recipe = {
+                {"rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget" },
+                { "rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget" },
+                {"rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget"},
+        },
 })
