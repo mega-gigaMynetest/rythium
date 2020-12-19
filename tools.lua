@@ -28,7 +28,7 @@ minetest.register_tool("rythium:healing_wand", {
 		end
 		-- Wand wear management
 		-- user is a table representing a player is_creative_enabled needs only the name
-		if not core.is_creative_enabled(user:get_player_name()) then
+		if not minetest.is_creative_enabled(user:get_player_name()) then
 			itemstack:add_wear(wands_wear)
 			if itemstack:get_count() == 0 then
 				minetest.sound_play("default_tool_breaks", {gain = 1})
