@@ -55,6 +55,8 @@ local function dig_it(pos, player)
 	if name == "default:lava_flowing" then return end
 	if name == "default:water_source" then minetest.remove_node(pos) return end
 	if name == "default:water_flowing" then minetest.remove_node(pos) return end
+	local def = minetest.registered_nodes[node.name]
+	if not def then return end
 	if groupcracky == 0 then return end
 	minetest.dig_node(pos)
 end
@@ -175,3 +177,4 @@ minetest.register_on_dignode(
 		end
 	end
 )
+
