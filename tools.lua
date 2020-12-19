@@ -1,20 +1,22 @@
 -- support for MT game translation.
 local S = minetest.get_translator(rythium)
 
--- Retrieving mod settings
-local rythium = {}
-rythium.wands_max_charge = minetest.settings:get("rythium.wands_max_charge")
-
 --
 -- Wands
 --
+
+-- Retrieving mod settings
+-- https://dev.minetest.net/Settings (beware of the bug !)
+local wands_max_use
+wands_max_use = minetest.settings:get("rythium.wands_max_use") or 20
+local wands_wear = 65535/(wands_max_use-1)
 
 -- Healing wand
 minetest.register_tool("rythium:healing_wand", {
 	description = S("Healing wand"),
 	inventory_image = "rythium_healing_wand.png",
 	on_use = function(itemstack, user, pointed_thing)
-		minetest.sound_play("rythium_healing")
+		minetest.sound_play("rythium_healing", {gain = 0.5})
 		-- pointed_thing is a table and this table contains a ref variable,
 		-- i.e. another table which represents the pointed object itself.
 		-- difference is tested with ~= not with != as in other languages
@@ -23,6 +25,15 @@ minetest.register_tool("rythium:healing_wand", {
 			pointed_thing.ref:set_hp(20)
 		else
 			user:set_hp(20)
+		end
+		-- Wand wear management
+		-- user is a table representing a player is_creative_enabled needs only the name
+		if not core.is_creative_enabled(user:get_player_name()) then
+			itemstack:add_wear(wands_wear)
+			if itemstack:get_count() == 0 then
+				minetest.sound_play("default_tool_breaks", {gain = 1})
+			end
+			return itemstack -- /!\ On_use must return the modified itemstack
 		end
 	end,
 })
@@ -140,7 +151,7 @@ local function dig_it_dir(pos, player)
 end
 
 minetest.register_tool("rythium:huge_pick", {
-	description = ("3*3 Pick"),
+	description = S("3*3 Pick"),
 	inventory_image = "huge_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 0.9,
