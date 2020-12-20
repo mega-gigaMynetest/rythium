@@ -1,9 +1,3 @@
---local function grow_rythium_sapling(...)
---	return default.grow_rythium_sapling(...)
---end
---local S = default.get_translator
---local random = math.random
-
 minetest.register_craft({
 	type = "cooking",
 	output = "rythium:mithril_powder",

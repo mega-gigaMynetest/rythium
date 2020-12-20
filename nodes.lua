@@ -1,9 +1,5 @@
 -- support for MT game translation.
-local S = minetest.get_translator(rythium)
-
-local function grow_rythium_sapling(...)
-	return default.grow_rythium_sapling(...)
-end
+local S = minetest.get_translator("rythium")
 
 minetest.register_craftitem("rythium:diamond_powder", {
 	description = S("Diamond powder"),
@@ -76,7 +72,7 @@ minetest.register_node("rythium:sapling", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	walkable = false,
-	on_timer = grow_rythium_sapling,
+	on_timer = rythium.grow_rythium_sapling,
 	selection_box = {
 		type = "fixed",
 		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
@@ -84,19 +80,17 @@ minetest.register_node("rythium:sapling", {
 	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
 		attached_node = 1, sapling = 1},
 	sounds = default.node_sound_leaves_defaults(),
-  on_construct = function(pos)
-    minetest.get_node_timer(pos):start(math.random(1, 2))
-  end,
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(1, 2))
+	end,
 
-  on_place = function(itemstack, placer, pointed_thing)
-    itemstack = default.sapling_on_place(itemstack, placer, pointed_thing,
-      "rythium:sapling",
-      -- minp, maxp to be checked, relative to sapling pos
-      -- minp_relative.y = 1 because sapling pos has been checked
-      {x = -3, y = 1, z = -3},
-      {x = 3, y = 6, z = 3},
-      4)
-
-    return itemstack
-  end,
+	on_place = function(itemstack, placer, pointed_thing)
+		return default.sapling_on_place(itemstack, placer, pointed_thing,
+			"rythium:sapling",
+			-- minp, maxp to be checked, relative to sapling pos
+			-- minp_relative.y = 1 because sapling pos has been checked
+			{x = -3, y = 1, z = -3},
+			{x = 3, y = 6, z = 3},
+			4)
+	end,
 })

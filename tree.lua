@@ -1,10 +1,6 @@
 local random = math.random
 
-local function grow_rythium_sapling(...)
-	return default.grow_rythium_sapling(...)
-end
-
-function default.can_grow(pos)
+local function can_grow(pos)
 	local node_under_C = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z})
 	local node_under_N = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z + 1})
 	local node_under_S = minetest.get_node_or_nil({x = pos.x, y = pos.y - 1, z = pos.z - 1})
@@ -79,14 +75,8 @@ function default.can_grow(pos)
 	return true
 end
 
-
-local function is_snow_nearby(pos)
-	return minetest.find_node_near(pos, 1, {"group:snowy"})
-end
-
-
-function default.grow_rythium_sapling(pos)
-	if not default.can_grow(pos) then
+function rythium.grow_rythium_sapling(pos)
+	if not can_grow(pos) then
 		minetest.get_node_timer(pos):start(10)
 		return
 	end
@@ -170,10 +160,7 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 	end
 end
 
-function grow_rythium_tree(pos, is_apple_tree, bad)
-	if bad then
-		error("Deprecated use of grow_rythium_tree")
-	end
+function grow_rythium_tree(pos, is_apple_tree)
 	local x, y, z = pos.x, pos.y, pos.z
 	local height = random(5, 6)
 	local c_rythium_tree = minetest.get_content_id("default:tree")
@@ -189,73 +176,4 @@ function grow_rythium_tree(pos, is_apple_tree, bad)
 	vm:set_data(data)
 	vm:write_to_map()
 	vm:update_map()
-end
-
-function default.sapling_on_place(itemstack, placer, pointed_thing,
-		sapling_name, minp_relative, maxp_relative, interval)
-	local pos = pointed_thing.under
-	local node = minetest.get_node_or_nil(pos)
-	local pdef = node and minetest.registered_nodes[node.name]
-	if pdef and pdef.on_rightclick and
-			not (placer and placer:is_player() and
-			placer:get_player_control().sneak) then
-		return pdef.on_rightclick(pos, node, placer, itemstack, pointed_thing)
-	end
-	if not pdef or not pdef.buildable_to then
-		pos = pointed_thing.above
-		node = minetest.get_node_or_nil(pos)
-		pdef = node and minetest.registered_nodes[node.name]
-		if not pdef or not pdef.buildable_to then
-			return itemstack
-		end
-	end
-
-	local player_name = placer and placer:get_player_name() or ""
-	if minetest.is_protected(pos, player_name) then
-		minetest.record_protection_violation(pos, player_name)
-		return itemstack
-	end
-	if minetest.is_area_protected(
-			vector.add(pos, minp_relative),
-			vector.add(pos, maxp_relative),
-			player_name,
-			interval) then
-		minetest.record_protection_violation(pos, player_name)
-		minetest.chat_send_player(player_name,
-		    S("@1 will intersect protection on growth.",
-			itemstack:get_definition().description))
-		return itemstack
-	end
-
-	minetest.log("action", player_name .. " places node "
-			.. sapling_name .. " at " .. minetest.pos_to_string(pos))
-
-	local take_item = not (creative and creative.is_enabled_for
-		and creative.is_enabled_for(player_name))
-	local newnode = {name = sapling_name}
-	local ndef = minetest.registered_nodes[sapling_name]
-	minetest.set_node(pos, newnode)
-
-	if ndef and ndef.after_place_node then
-		-- Deepcopy place_to and pointed_thing because callback can modify it
-		if ndef.after_place_node(table.copy(pos), placer,
-				itemstack, table.copy(pointed_thing)) then
-			take_item = false
-		end
-	end
-
-	for _, callback in ipairs(minetest.registered_on_placenodes) do
-		-- Deepcopy pos, node and pointed_thing because callback can modify them
-		if callback(table.copy(pos), table.copy(newnode),
-				placer, table.copy(node or {}),
-				itemstack, table.copy(pointed_thing)) then
-			take_item = false
-		end
-	end
-
-	if take_item then
-		itemstack:take_item()
-	end
-
-	return itemstack
 end
