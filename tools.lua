@@ -45,23 +45,24 @@ minetest.register_tool("rythium:healing_wand", {
 local pick_cb_enabled = true
 
 local function dig_it(pos, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		minetest.record_protection_violation(pos, player:get_player_name())
+	local player_name = player:get_player_name()
+	if minetest.is_protected(pos, player_name) then
+		minetest.record_protection_violation(pos, player_name)
 		return
 	end
 	local node = minetest.get_node(pos)
-	local name = node.name
-	local groupcracky = minetest.get_item_group(name, "cracky")
-	if name == "air" or node.name == "ignore" then return end
-	if name == "default:lava_source" then return end
-	if name == "default:lava_flowing" then return end
-	if name == "default:water_source" then minetest.remove_node(pos) return end
-	if name == "default:water_flowing" then minetest.remove_node(pos) return end
-	local def = minetest.registered_nodes[node.name]
+	local node_name = node.name
+	local groupcracky = minetest.get_item_group(node_name, "cracky")
+	if node_name == "air" or node_name == "ignore" then return end
+	if node_name == "default:lava_source" then return end
+	if node_name == "default:lava_flowing" then return end
+	if node_name == "default:water_source" then minetest.remove_node(pos) return end
+	if node_name == "default:water_flowing" then minetest.remove_node(pos) return end
+	local def = minetest.registered_nodes[node_name]
 	if not def then return end
 	if groupcracky == 0 then return end
 
-	minetest.registered_nodes[name].on_dig(pos, node, player)
+	def.on_dig(pos, node, player)
 end
 
 local dig_offsets = {
