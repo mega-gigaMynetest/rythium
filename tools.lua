@@ -91,12 +91,12 @@ end
 
 minetest.register_tool("rythium:huge_pick", {
 	description = S("3*3 Pick"),
-	inventory_image = "huge_pick.png",
+	inventory_image = "rythium_huge_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 0.9,
 		max_drop_level=3,
 		groupcaps={
-			cracky = {times={[1]=3.5, [2]=2.5, [3]=1.5}, uses=40, maxlevel=3},
+			cracky = {times={[1]=3.5, [2]=2.5, [3]=1.5}, uses=200, maxlevel=3},
 		},
 		damage_groups = {fleshy=4},
 	},
