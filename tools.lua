@@ -42,7 +42,9 @@ minetest.register_tool("rythium:healing_wand", {
 -- Rythium Pickaxe
 --
 
-local disabled = false
+-- This is set to false when the callback runs, to prevent additional calls to
+-- on_dig from making it run again
+local pick_cb_enabled = true
 
 local function dig_it(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -61,9 +63,7 @@ local function dig_it(pos, player)
 	if not def then return end
 	if groupcracky == 0 then return end
 
-	disabled = true
 	minetest.registered_nodes[name].on_dig(pos, node, player)
-	disabled = false
 end
 
 local dig_offsets = {
@@ -106,10 +106,14 @@ minetest.register_tool("rythium:huge_pick", {
 
 minetest.register_on_dignode(
 	function(pos, oldnode, digger)
-		if disabled then return end
+		if not pick_cb_enabled then return end
+		pick_cb_enabled = false
+
 		if not digger:is_player() then return end
 		if digger:get_wielded_item():get_name() == "rythium:huge_pick" then
 			dig_it_dir(pos, digger)
 		end
+
+		pick_cb_enabled = true
 	end
 )
