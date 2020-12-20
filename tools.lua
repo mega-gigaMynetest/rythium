@@ -7,8 +7,7 @@ local S = minetest.get_translator(rythium)
 
 -- Retrieving mod settings
 -- https://dev.minetest.net/Settings (beware of the bug !)
-local wands_max_use
-wands_max_use = minetest.settings:get("rythium.wands_max_use") or 20
+local wands_max_use = minetest.settings:get("rythium.wands_max_use") or 20
 local wands_wear = 65535/(wands_max_use-1)
 
 -- Healing wand
@@ -20,14 +19,13 @@ minetest.register_tool("rythium:healing_wand", {
 		-- pointed_thing is a table and this table contains a ref variable,
 		-- i.e. another table which represents the pointed object itself.
 		-- difference is tested with ~= not with != as in other languages
-		if (pointed_thing.ref~=nil and pointed_thing.ref:is_player())
-		then
+		if pointed_thing.ref and pointed_thing.ref:is_player() then
 			pointed_thing.ref:set_hp(20)
 		else
 			user:set_hp(20)
 		end
 		-- Wand wear management
-		-- user is a table representing a player is_creative_enabled needs only the name
+		-- user is an object representing a player, is_creative_enabled needs only the name
 		if not minetest.is_creative_enabled(user:get_player_name()) then
 			itemstack:add_wear(wands_wear)
 			if itemstack:get_count() == 0 then
