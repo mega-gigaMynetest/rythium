@@ -1,11 +1,7 @@
 -- mithril powder
 if minetest.get_modpath("technic") then
-	print(dump(minetest.get_modpath("technic")))
-	print("Yes")
 	minetest.register_alias("rythium:mithril_powder","technic:mithril_dust")
 else
-	print(dump(minetest.get_modpath("technic")))
-	print("No")
 	minetest.register_craft({
 		type = "cooking",
 		output = "rythium:mithril_powder",
