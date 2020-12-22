@@ -1,17 +1,30 @@
-minetest.register_craft({
-	type = "cooking",
-	output = "rythium:mithril_powder",
-	recipe = "moreores:mithril_ingot",
-})
+-- mithril powder
+if minetest.get_modpath("technic") then
+	print(dump(minetest.get_modpath("technic")))
+	print("Yes")
+	minetest.register_alias("rythium:mithril_powder","technic:mithril_dust")
+else
+	print(dump(minetest.get_modpath("technic")))
+	print("No")
+	minetest.register_craft({
+		type = "cooking",
+		output = "rythium:mithril_powder",
+		recipe = "moreores:mithril_ingot",
+	})
+end
 
-minetest.register_craft({
-	type = "cooking",
-	output = "rythium:diamond_powder",
-	recipe = "default:diamond",
-})
+-- diamond powder
+if minetest.get_modpath("technic") then
+	technic.register_grinder_recipe({input = { "default:diamond" }, output = "rythium:diamond_powder 1"})
+else
+	minetest.register_craft({
+		type = "cooking",
+		output = "rythium:diamond_powder",
+		recipe = "default:diamond",
+	})
+end
 
-
-
+-- rythium sapling
 minetest.register_craft( {
 	output = "rythium:sapling",
 	recipe = {
