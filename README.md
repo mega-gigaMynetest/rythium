@@ -28,7 +28,10 @@ With this material you can craft unique objects like a 3 * 3 pickaxe.
 
 ![screenshot](/screenshots/SC_0001.png)
 
-## ToolsS
+**Technic mod compatibility** : if technic is used, mithril_dust will be needed instead of mithril_powder
+and diamond_powder will be obtained with the grinder.
+
+## Tools
 ### Healing wand
 
 ![screenshot](/screenshots/SC_0007.png)
@@ -43,21 +46,21 @@ The wand has a limited number of charges (default 20, mays be changed in the mod
 
 This pickaxe wil dig a 3x3 square, like the mining drill of the technic mod.
 
+![screenshot](/screenshots/SC_0008.png)
+
 ## TODO
 
-* create textures
 * create tools
-* recipes of tools
 * implement leaves decay
 * implement treecapitator compatibility
-* implement mod options
-* implement translation for all items
 
 ## DONE 
 
 * Nodes
 * Recipes of the nodes
 * rythium tree system
+* implement translation for all items
+* implement technic compatibility
 
 ## Credits
 
