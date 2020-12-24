@@ -116,3 +116,71 @@ minetest.register_on_dignode(
 		pick_cb_enabled = true
 	end
 )
+
+
+-- Night vision googles
+
+rythium_light={users={},timer=0}
+
+minetest.register_on_leaveplayer(function(player)
+ local name=player:get_player_name()
+ if rythium_light.users[name]~=nil then rythium_light.users[name]=nil end
+end)
+
+minetest.register_node("rythium:light", {
+ description = "light source",
+ light_source = 12,
+ paramtype = "light",
+ walkable=false,
+ drawtype = "airlike",
+ pointable=false,
+ buildable_to=true,
+ sunlight_propagates = true,
+ groups = {not_in_creative_inventory=1},
+ on_construct=function(pos)
+   minetest.get_node_timer(pos):start(2)
+ end,
+ on_timer = function (pos, elapsed)
+   minetest.set_node(pos, {name="air"})
+ end,
+})
+
+armor:register_armor("rythium:googles", {
+		description = ("Night vision googles"),
+		inventory_image = "rythium_night_googles.png",
+		groups = {armor_head=1, armor_heal=0, armor_use=10},
+		armor_groups = {fleshy=10},
+		damage_groups = {cracky=1, snappy=1, level=1},
+    on_equip = function(player, index, stack)
+      rythium_light.users[player:get_player_name()]={player=player,slot=index,inside=0,item=player:get_inventory():get_stack("main", index):get_name()}
+    end,
+    on_unequip = function(player, index, stack)
+      rythium_light.users[player:get_player_name()]=nil
+    end,
+})
+
+minetest.register_globalstep(function(dtime)
+  rythium_light.timer=rythium_light.timer+dtime
+  if rythium_light.timer>1 then
+    rythium_light.timer=0
+    for i,ob in pairs(rythium_light.users) do
+      local name=ob.player:get_inventory():get_stack("main", ob.slot):get_name()
+      local pos=ob.player:get_pos()
+      pos.y=pos.y+1.5
+      local n=minetest.get_node(pos).name
+      local light=minetest.get_node_light(pos)
+      if light==nil then
+        rythium_light.users[i]=nil
+        return false
+      end
+      if ob.inside>10 or name==nil or name~=ob.item or minetest.get_node_light(pos)>12 then
+        rythium_light.users[i]=nil
+      elseif n=="air" or n=="rythium:light" then
+        minetest.set_node(pos, {name="rythium:light"})
+      else
+        ob.inside=ob.inside+1
+      end
+    end
+  end
+end)
+
