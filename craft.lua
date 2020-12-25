@@ -21,7 +21,7 @@ else
 end
 
 -- rythium sapling
-minetest.register_craft( {
+minetest.register_craft({
 	output = "rythium:sapling",
 	recipe = {
 		{"default:diamondblock", "default:mese", "default:diamondblock" },
@@ -30,7 +30,7 @@ minetest.register_craft( {
 	},
 })
 
-minetest.register_craft( {
+minetest.register_craft({
 	output = "rythium:mineral_dirt",
 	recipe = {
 		{"", "rythium:diamond_powder", "" },
@@ -39,7 +39,7 @@ minetest.register_craft( {
 	},
 })
 
-minetest.register_craft( {
+minetest.register_craft({
 	output = "rythium:healing_wand",
 	recipe = {
 		{"default:apple", "rythium:rythium_ingot", "default:apple"},
@@ -48,7 +48,7 @@ minetest.register_craft( {
 	},
 })
 
-minetest.register_craft( {
+minetest.register_craft({
 	output = "rythium:huge_pick",
 	recipe = {
 		{"rythium:rythium_ingot", "rythium:rythium_ingot", "rythium:rythium_ingot"},
@@ -57,7 +57,7 @@ minetest.register_craft( {
 	},
 })
 
-minetest.register_craft( {
+minetest.register_craft({
         output = "rythium:rythium_ingot",
         recipe = {
                 {"rythium:rythium_nugget", "rythium:rythium_nugget", "rythium:rythium_nugget" },
@@ -67,7 +67,23 @@ minetest.register_craft( {
 })
 
 minetest.register_craft({
-        output = "rythium:googles",
+        output = "rythium:rythium_nugget 9",
+        recipe = {
+                {"rythium:rythium_ingot"},
+        },
+})
+
+minetest.register_craft({
+        output = "rythium:headlamp_controler",
+        recipe = {
+                {"", "rythium:rythium_nugget", "" },
+                { "", "default:stick", "" },
+                {"", "default:stick", ""},
+        },
+})
+
+minetest.register_craft({
+        output = "rythium:headlamp",
         recipe = {
                 {"rythium:rythium_ingot", "rythium:rythium_ingot", "rythium:rythium_ingot" },
                 {"rythium:rythium_ingot", "", "rythium:rythium_ingot"},
