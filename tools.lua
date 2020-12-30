@@ -15,11 +15,15 @@ minetest.register_tool("rythium:healing_wand", {
 	description = S("Healing wand"),
 	inventory_image = "rythium_healing_wand.png",
 	on_use = function(itemstack, user, pointed_thing)
-		minetest.sound_play("rythium_healing", {gain = 0.5})
+		local name = user:get_player_name()
+		minetest.sound_play("rythium_healing", {to_player = name, gain = 0.5}, true)
 		-- pointed_thing is a table and this table contains a ref variable,
 		-- i.e. another table which represents the pointed object itself.
 		if pointed_thing.ref and pointed_thing.ref:is_player() then
 			pointed_thing.ref:set_hp(20)
+			minetest.sound_play("rythium_healing",
+				{to_player = pointed_thing.ref:get_player_name(), gain = 0.5},
+				true)
 		else
 			user:set_hp(20)
 		end
@@ -28,7 +32,7 @@ minetest.register_tool("rythium:healing_wand", {
 		if not minetest.is_creative_enabled(user:get_player_name()) then
 			itemstack:add_wear(wands_wear)
 			if itemstack:get_count() == 0 then
-				minetest.sound_play("default_tool_breaks", {gain = 1})
+				minetest.sound_play("default_tool_breaks", {to_player = name}, true)
 			end
 			return itemstack -- /!\ On_use must return the modified itemstack
 		end
