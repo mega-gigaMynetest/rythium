@@ -1,4 +1,4 @@
--- support for MT game translation.
+-- support for translation.
 local S = minetest.get_translator("rythium")
 
 --
@@ -18,7 +18,6 @@ minetest.register_tool("rythium:healing_wand", {
 		minetest.sound_play("rythium_healing", {gain = 0.5})
 		-- pointed_thing is a table and this table contains a ref variable,
 		-- i.e. another table which represents the pointed object itself.
-		-- difference is tested with ~= not with != as in other languages
 		if pointed_thing.ref and pointed_thing.ref:is_player() then
 			pointed_thing.ref:set_hp(20)
 		else
@@ -120,86 +119,85 @@ minetest.register_on_dignode(
 
 -- Night vision headlamp
 
-local rythium_light={users={},timer=0}
+local rythium_light_users = {}
 
 minetest.register_on_leaveplayer(function(player)
- local name=player:get_player_name()
- if rythium_light.users[name]~=nil then rythium_light.users[name]=nil end
+	local name = player:get_player_name()
+	rythium_light_users[name] = nil
 end)
 
 minetest.register_node("rythium:light", {
- description = "light source",
- light_source = 12,
- paramtype = "light",
- walkable=false,
- drawtype = "airlike",
- pointable=false,
- buildable_to=true,
- sunlight_propagates = true,
- groups = {not_in_creative_inventory=1},
- on_construct=function(pos)
-   minetest.get_node_timer(pos):start(2)
- end,
- on_timer = function (pos, elapsed)
-   minetest.set_node(pos, {name="air"})
- end,
+	description = "light source",
+	light_source = 12,
+	paramtype = "light",
+	walkable = false,
+	drawtype = "airlike",
+	pointable = false,
+	buildable_to = true,
+	sunlight_propagates = true,
+	groups = {not_in_creative_inventory = 1},
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(2)
+	end,
+	on_timer = function(pos, elapsed)
+		minetest.set_node(pos, {name="air"})
+	end,
 })
 
 
-minetest.register_tool("rythium:headlamp_controler", {
-	description = S("Headlamp Controler"),
-	inventory_image = "rythium_headlamp_controler.png",
+minetest.register_tool("rythium:headlamp_controller", {
+	description = S("Headlamp Controller"),
+	inventory_image = "rythium_headlamp_controller.png",
 	on_use = function(itemstack, user, pointed_thing)
 		local _, inv = armor:get_valid_player(user)
-		local list = inv:get_list("armor")
-		for _, v in ipairs(list) do
-			if v:get_name() == "rythium:headlamp" then
-				rythium_light.users[user:get_player_name()]={player=user,inside=0}
-				break
-			end
+		if inv:contains_item("armor", "rythium:headlamp") then
+			rythium_light_users[user:get_player_name()] = {player = user, inside = 0}
 		end
 	end,
 	on_place = function(itemstack, user, pointed_thing)
-		rythium_light.users[user:get_player_name()] = nil
+		rythium_light_users[user:get_player_name()] = nil
 	end,
 	on_secondary_use = function(itemstack, user, pointed_thing)
-		rythium_light.users[user:get_player_name()] = nil
+		rythium_light_users[user:get_player_name()] = nil
 	end,
 	sound = {breaks = "default_tool_breaks"},
 })
 
 armor:register_armor("rythium:headlamp", {
-		description = ("Headlamp"),
-		inventory_image = "rythium_headlamp.png",
-		groups = {armor_head=1, armor_heal=0, armor_use=10},
-		armor_groups = {fleshy=10},
-		damage_groups = {cracky=1, snappy=1, level=1},
-    on_unequip = function(player, index, stack)
-      rythium_light.users[player:get_player_name()]=nil
-    end,
+	description = S("Headlamp"),
+	inventory_image = "rythium_headlamp.png",
+	groups = {armor_head=1, armor_heal=0, armor_use=10},
+	armor_groups = {fleshy=10},
+	damage_groups = {cracky=1, snappy=1, level=1},
+	on_unequip = function(player, index, stack)
+		rythium_light_users[player:get_player_name()] = nil
+	end,
 })
 
+local timer = 0
 minetest.register_globalstep(function(dtime)
-  rythium_light.timer=rythium_light.timer+dtime
-  if rythium_light.timer>1 then
-    rythium_light.timer=0
-    for i,ob in pairs(rythium_light.users) do
-      local pos=ob.player:get_pos()
-      pos.y=pos.y+1.5
-      local n=minetest.get_node(pos).name
-      local light=minetest.get_node_light(pos)
-      if light==nil then
-        rythium_light.users[i]=nil
-        return false
-      end
-      if ob.inside>10 or minetest.get_node_light(pos)>12 then
-        rythium_light.users[i]=nil
-      elseif n=="air" or n=="rythium:light" then
-        minetest.set_node(pos, {name="rythium:light"})
-      else
-        ob.inside=ob.inside+1
-      end
-    end
-  end
+	timer = timer + dtime
+	if timer > 1 then
+		timer = 0
+		for name, ob in pairs(rythium_light_users) do
+			local pos = ob.player:get_pos()
+			pos.y = pos.y + 1.5
+			local n = minetest.get_node(pos).name
+			local light = minetest.get_node_light(pos)
+			if not light then
+				rythium_light_users[name] = nil
+				return
+			end
+			if ob.inside > 10 or minetest.get_node_light(pos) > 12 then
+				rythium_light_users[name] = nil
+			elseif n == "air" then
+				minetest.set_node(pos, {name = "rythium:light"})
+			elseif n == "rythium:light" then
+				minetest.get_node_timer(pos):start(2)
+			else
+				ob.inside = ob.inside + 1
+			end
+		end
+	end
 end)
 

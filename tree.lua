@@ -44,31 +44,8 @@ local function can_grow(pos)
 	return true
 end
 
-function rythium.grow_rythium_sapling(pos)
-	if not can_grow(pos) then
-		minetest.get_node_timer(pos):start(10)
-		return
-	end
-	local mg_name = minetest.get_mapgen_setting("mg_name")
-	local node = minetest.get_node(pos)
-	if node.name == "rythium:sapling" then
-		minetest.log("action", "A rythium sapling grows into a rythium tree at "..
-			minetest.pos_to_string(pos))
-		grow_rythium_tree(pos, 1)
-		minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
-		minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
-		minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = "default:dirt"})
-		minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
-		minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
-		minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
-		minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
-		minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z- 1}, {name = "default:dirt"})
-		minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z - 1}, {name = "default:dirt"})
-	end
-end
-
 local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
-		height, size, iters, is_apple_tree)
+		height, size, iters)
 	local x, y, z = pos.x, pos.y, pos.z
 	local c_air = minetest.get_content_id("air")
 	local c_ignore = minetest.get_content_id("ignore")
@@ -88,10 +65,8 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 		local vi = a:index(x - 1, y + height + y_dist, z + z_dist)
 		for x_dist = -1, 2 do
 			if data[vi] == c_air or data[vi] == c_ignore then
-				if is_apple_tree and random(1, 50) == 1 then
+				if random(1, 50) == 1 then
 					data[vi] = c_apple
-				else
-					data[vi] = leaves_cid
 				end
 			end
 			vi = vi + 1
@@ -108,10 +83,8 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 		for zi = 0, 1 do
 			local vi = a:index(clust_x + xi, clust_y + yi, clust_z + zi)
 			if data[vi] == c_air or data[vi] == c_ignore then
-				if is_apple_tree and random(1, 25) == 1 then
+				if random(1, 25) == 1 then
 					data[vi] = c_apple
-				else
-					data[vi] = leaves_cid
 				end
 			end
 		end
@@ -120,7 +93,7 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 	end
 end
 
-function grow_rythium_tree(pos, is_apple_tree)
+local function grow_rythium_tree(pos)
 	local x, y, z = pos.x, pos.y, pos.z
 	local height = random(5, 6)
 	local c_rythium_tree = minetest.get_content_id("default:tree")
@@ -132,8 +105,30 @@ function grow_rythium_tree(pos, is_apple_tree)
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
 	local data = vm:get_data()
-	add_trunk_and_leaves_rythium(data, a, pos, c_rythium_tree, c_rythium_leaves, height, 2, 8, is_apple_tree)
+	add_trunk_and_leaves_rythium(data, a, pos, c_rythium_tree, c_rythium_leaves, height, 2, 8)
 	vm:set_data(data)
 	vm:write_to_map()
 	vm:update_map()
+end
+
+function rythium.grow_rythium_sapling(pos)
+	if not can_grow(pos) then
+		minetest.get_node_timer(pos):start(10)
+		return
+	end
+	local node = minetest.get_node(pos)
+	if node.name == "rythium:sapling" then
+		minetest.log("action", "A rythium sapling grows into a rythium tree at "..
+			minetest.pos_to_string(pos))
+		grow_rythium_tree(pos)
+		minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
+		minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
+		minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = "default:dirt"})
+		minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
+		minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = "default:dirt"})
+		minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
+		minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z + 1}, {name = "default:dirt"})
+		minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z- 1}, {name = "default:dirt"})
+		minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z - 1}, {name = "default:dirt"})
+	end
 end

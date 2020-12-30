@@ -1,6 +1,3 @@
--- support for MT game translation.
-local S = minetest.get_translator("rythium")
-
 rythium = {}
 
 dofile(minetest.get_modpath("rythium").."/tree.lua")

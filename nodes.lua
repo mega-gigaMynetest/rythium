@@ -1,4 +1,4 @@
--- support for MT game translation.
+-- support for translation.
 local S = minetest.get_translator("rythium")
 
 minetest.register_craftitem("rythium:diamond_powder", {
@@ -7,7 +7,9 @@ minetest.register_craftitem("rythium:diamond_powder", {
 })
 
 -- mithril powder
-	if not minetest.get_modpath("technic") then
+if minetest.get_modpath("technic") then
+	minetest.register_alias("rythium:mithril_powder","technic:mithril_dust")
+else
 	minetest.register_craftitem("rythium:mithril_powder", {
 		description = S("Mithril powder"),
 		inventory_image = "mithril_powder.png",
