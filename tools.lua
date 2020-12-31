@@ -120,8 +120,9 @@ minetest.register_on_dignode(
 	end
 )
 
-
+--
 -- Night vision headlamp
+--
 
 local rythium_light_users = {}
 
@@ -169,7 +170,7 @@ minetest.register_tool("rythium:headlamp_controller", {
 
 armor:register_armor("rythium:headlamp", {
 	description = S("Headlamp"),
-	inventory_image = "rythium_headlamp.png",
+	inventory_image = "rythium_inv_headlamp.png",
 	groups = {armor_head=1, armor_heal=0, armor_use=10},
 	armor_groups = {fleshy=10},
 	damage_groups = {cracky=1, snappy=1, level=1},
