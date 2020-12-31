@@ -48,6 +48,14 @@ minetest.register_node("rythium:rythium_nugget", {
 	sounds = default.node_sound_leaves_defaults(),
 })
 
+minetest.register_node("rythium:rythium_block", {
+	description = S("Rythium block"),
+	tiles = {"rythium_block.png"},
+	is_ground_content = false,
+	groups = {cracky = 1, level = 3},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 minetest.register_node("rythium:leaves", {
 	description = S("Rythium leaves"),
 	drawtype = "allfaces_optional",
@@ -56,6 +64,7 @@ minetest.register_node("rythium:leaves", {
 	paramtype = "light",
 	is_ground_content = false,
 	walkable = false,
+	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
 	drop = {
 		max_items = 1,
 		items = {
@@ -65,7 +74,6 @@ minetest.register_node("rythium:leaves", {
 			},
 		}
 	},
-	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
 	sounds = default.node_sound_leaves_defaults(),
 })
 
