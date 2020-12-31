@@ -48,10 +48,22 @@ This pickaxe wil dig a 3x3 square, like the mining drill of the technic mod.
 
 ![screenshot](/screenshots/SC_0008.png)
 
+### Rythium headlamp
+
+![screenshot](/screenshots/SC_0010.png)
+
+
+This lamp allows a player to see in the dark without using torches. It switches off automatically
+when there's enough ambiant light or when the player disconnects.
+
+To switch in on again you need to use the headlamp_controller.
+
+![screenshot](/screenshots/SC_0009.png)
+
 ## TODO
 
-* create tools
-* implement leaves decay
+* implement recipe for the headlamp controller or…
+* find a way to get rid of that ugly tool ?
 * implement treecapitator compatibility
 
 ## DONE 
