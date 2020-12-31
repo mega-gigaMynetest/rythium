@@ -87,7 +87,7 @@ minetest.register_node("rythium:sapling", {
 		attached_node = 1, sapling = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	on_construct = function(pos)
-		minetest.get_node_timer(pos):start(math.random(1, 2))
+		minetest.get_node_timer(pos):start(math.random(300, 900))
 	end,
 
 	on_place = function(itemstack, placer, pointed_thing)
