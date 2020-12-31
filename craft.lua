@@ -71,7 +71,7 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-        output = "rythium:headlamp_controler",
+        output = "rythium:headlamp_controller",
         recipe = {
                 {"", "rythium:rythium_nugget", "" },
                 { "", "default:stick", "" },
