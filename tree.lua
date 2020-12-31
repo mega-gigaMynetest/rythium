@@ -67,6 +67,8 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 			if data[vi] == c_air or data[vi] == c_ignore then
 				if random(1, 50) == 1 then
 					data[vi] = c_apple
+				else
+					data[vi] = leaves_cid
 				end
 			end
 			vi = vi + 1
@@ -85,6 +87,8 @@ local function add_trunk_and_leaves_rythium(data, a, pos, tree_cid, leaves_cid,
 			if data[vi] == c_air or data[vi] == c_ignore then
 				if random(1, 25) == 1 then
 					data[vi] = c_apple
+				else
+					data[vi] = leaves_cid
 				end
 			end
 		end
