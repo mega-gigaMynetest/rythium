@@ -64,6 +64,22 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+        output = "rythium:rythium_block",
+        recipe = {
+                {"rythium:rythium_ingot", "rythium:rythium_ingot", "rythium:rythium_ingot" },
+                { "rythium:rythium_ingot", "rythium:rythium_ingot", "rythium:rythium_ingot" },
+                {"rythium:rythium_ingot", "rythium:rythium_ingot", "rythium:rythium_ingot"},
+        },
+})
+
+minetest.register_craft({
+        output = "rythium:rythium_ingot 9",
+        recipe = {
+                {"rythium:rythium_block"},
+        },
+})
+
+minetest.register_craft({
         output = "rythium:rythium_nugget 9",
         recipe = {
                 {"rythium:rythium_ingot"},
