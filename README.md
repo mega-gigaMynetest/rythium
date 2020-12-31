@@ -58,7 +58,7 @@ when there's enough ambiant light or when the player disconnects.
 
 To switch in on again you need to use the headlamp_controller.
 
-![screenshot](/screenshots/SC_0009.png)
+![screenshot](/screenshots/Screenshot_20201231-142230_Minetest.jpg)
 
 ## TODO
 
