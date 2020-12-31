@@ -1,4 +1,0 @@
-default
-moreores
-3d_armor
-?technic
