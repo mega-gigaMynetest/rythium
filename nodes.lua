@@ -3,7 +3,7 @@ local S = minetest.get_translator("rythium")
 
 minetest.register_craftitem("rythium:diamond_powder", {
 	description = S("Diamond powder"),
-	inventory_image = "diamond_powder.png",
+	inventory_image = "rythium_diamond_powder.png",
 })
 
 -- mithril powder
@@ -12,13 +12,13 @@ if minetest.get_modpath("technic") then
 else
 	minetest.register_craftitem("rythium:mithril_powder", {
 		description = S("Mithril powder"),
-		inventory_image = "mithril_powder.png",
+		inventory_image = "rythium_mithril_powder.png",
 	})
 end
 
 minetest.register_node("rythium:mineral_dirt", {
 	description = S("Mineral fertilized dirt"),
-	tiles = {"mineral_dirt.png"},
+	tiles = {"rythium_mineral_dirt.png"},
 	groups = {crumbly = 3, soil = 1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "default_grass_footstep", gain = 0.25},
