@@ -109,14 +109,13 @@ minetest.register_tool("rythium:huge_pick", {
 minetest.register_on_dignode(
 	function(pos, oldnode, digger)
 		if not pick_cb_enabled then return end
-		pick_cb_enabled = false
-
 		if not digger or not digger:is_player() then return end
-		if digger:get_wielded_item():get_name() == "rythium:huge_pick" then
-			dig_it_dir(pos, digger)
-		end
 
-		pick_cb_enabled = true
+		if digger:get_wielded_item():get_name() == "rythium:huge_pick" then
+			pick_cb_enabled = false
+			dig_it_dir(pos, digger)
+			pick_cb_enabled = true
+		end
 	end
 )
 
