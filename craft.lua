@@ -103,3 +103,39 @@ minetest.register_craft({
                 {"", "", ""},
         },
 })
+
+minetest.register_craft({
+				output = "rythium:super_compressed_cobblestone",
+				recipe = {
+								{"moreblocks:cobble_compressed", "moreblocks:cobble_compressed", "moreblocks:cobble_compressed"},
+								{"moreblocks:cobble_compressed", "moreblocks:cobble_compressed", "moreblocks:cobble_compressed"},
+								{"moreblocks:cobble_compressed", "moreblocks:cobble_compressed", "moreblocks:cobble_compressed"},
+				},
+})
+
+minetest.register_craft({
+				output = "rythium:mega_compressed_cobblestone",
+				recipe = {
+								{"rythium:super_compressed_cobblestone", "rythium:super_compressed_cobblestone", "rythium:super_compressed_cobblestone"},
+								{"rythium:super_compressed_cobblestone", "rythium:super_compressed_cobblestone", "rythium:super_compressed_cobblestone"},
+								{"rythium:super_compressed_cobblestone", "rythium:super_compressed_cobblestone", "rythium:super_compressed_cobblestone"},
+				},
+})
+
+minetest.register_craft({
+				output = "rythium:giga_compressed_cobblestone",
+				recipe = {
+								{"rythium:mega_compressed_cobblestone", "rythium:mega_compressed_cobblestone", "rythium:mega_compressed_cobblestone"},
+								{"rythium:mega_compressed_cobblestone", "rythium:mega_compressed_cobblestone", "rythium:mega_compressed_cobblestone"},
+								{"rythium:mega_compressed_cobblestone", "rythium:mega_compressed_cobblestone", "rythium:mega_compressed_cobblestone"},
+				},
+})
+
+minetest.register_craft({
+				output = "rythium:ultra_compressed_cobblestone",
+				recipe = {
+								{"rythium:giga_compressed_cobblestone", "rythium:giga_compressed_cobblestone", "rythium:giga_compressed_cobblestone"},
+								{"rythium:giga_compressed_cobblestone", "rythium:giga_compressed_cobblestone", "rythium:giga_compressed_cobblestone"},
+								{"rythium:giga_compressed_cobblestone", "rythium:giga_compressed_cobblestone", "rythium:giga_compressed_cobblestone"},
+				},
+})
