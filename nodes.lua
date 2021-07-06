@@ -108,3 +108,35 @@ minetest.register_node("rythium:sapling", {
 			4)
 	end,
 })
+
+minetest.register_node("rythium:super_compressed_cobblestone", {
+	description = S("Super Compressed Cobblestone"),
+	tiles = {"rythium_super_compressed.png"},
+	is_ground_content = false,
+	groups = {cracky = 3, stone = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("rythium:mega_compressed_cobblestone", {
+	description = S("Mega Compressed Cobblestone"),
+	tiles = {"rythium_mega_compressed.png"},
+	is_ground_content = false,
+	groups = {cracky = 2, stone = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("rythium:giga_compressed_cobblestone", {
+	description = S("Giga Compressed Cobblestone"),
+	tiles = {"rythium_giga_compressed.png"},
+	is_ground_content = false,
+	groups = {cracky = 2, stone = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("rythium:ultra_compressed_cobblestone", {
+	description = S("Ultra Compressed Cobblestone"),
+	tiles = {"rythium_ultra_compressed.png"},
+	is_ground_content = false,
+	groups = {cracky = 1, stone = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
