@@ -9,6 +9,7 @@ local S = minetest.get_translator("rythium")
 -- https://dev.minetest.net/Settings (beware of the bug !)
 local wands_max_use = minetest.settings:get("rythium.wands_max_use") or 20
 local wands_wear = 65535/(wands_max_use-1)
+local poison_active = false
 
 -- Healing wand
 minetest.register_tool("rythium:healing_wand", {
@@ -205,3 +206,54 @@ minetest.register_globalstep(function(dtime)
 	end
 end)
 
+-- Add [toolranks] mod support if found
+if minetest.get_modpath("toolranks") then
+    -- Helper function
+    local function add_tool(name, desc, afteruse)
+
+        minetest.override_item(name, {
+            original_description = desc,
+            description = toolranks.create_description(desc, 0, 1),
+            after_use = afteruse and toolranks.new_afteruse
+        })
+    end
+
+    add_tool("rythium:huge_pick", "3*3 Pick", true)
+end
+
+minetest.register_tool("rythium:excalibur", {
+	description = S("Excalibur"),
+	inventory_image = "rythium_excalibur.png",
+	tool_capabilities = {
+		full_punch_interval = 0.6,
+		max_drop_level=1,
+		groupcaps={
+			snappy={times={[1]=1.90, [2]=0.90, [3]=0.30}, uses=200, maxlevel=3},
+		},
+		damage_groups = {fleshy=8},
+	},
+	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1}
+})
+
+minetest.register_on_punchplayer(function(player, hitter, time_from_last_punch, tool_capabilities, dir, damage)
+	if poison_active == true then
+		return
+	end
+	if hitter:get_wielded_item():get_name() == "rythium:excalibur" then
+		poison_active = true
+		i = 0
+		while i < 11 do
+			minetest.after(i, function(player)
+				if player:get_hp() == 0 then
+					i = 12
+				end
+				player:set_hp(player:get_hp() - 1)
+			end, player)
+			i = i + 2
+		end
+		minetest.after(10, function(player)
+			poison_active = false
+		end, player)
+	end
+end)
