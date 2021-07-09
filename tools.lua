@@ -205,3 +205,17 @@ minetest.register_globalstep(function(dtime)
 	end
 end)
 
+-- Add [toolranks] mod support if found
+if minetest.get_modpath("toolranks") then
+    -- Helper function
+    local function add_tool(name, desc, afteruse)
+
+        minetest.override_item(name, {
+            original_description = desc,
+            description = toolranks.create_description(desc, 0, 1),
+            after_use = afteruse and toolranks.new_afteruse
+        })
+    end
+
+    add_tool("rythium:huge_pick", "3*3 Pick", true)
+end
